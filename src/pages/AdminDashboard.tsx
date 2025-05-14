@@ -40,8 +40,7 @@ export default function AdminDashboard() {
       <div className="mx-auto max-w-5xl flex items-center justify-between mb-8">
         <Heading level={1}>管理者ダッシュボード</Heading>
         <Button variant="outline" size="icon" onClick={() => auth.signOut()}>
-          {" "}
-          <LogOutIcon className="h-5 w-5" />{" "}
+          <LogOutIcon className="h-5 w-5" />
         </Button>
       </div>
 
@@ -52,7 +51,12 @@ export default function AdminDashboard() {
         )}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {groups.map((g) => (
-            <GroupCard key={g.id} id={g.id} name={g.name} />
+            <GroupCard
+              key={g.id}
+              id={g.id}
+              name={g.name}
+              to={`/admin/group/${g.id}`}
+            />
           ))}
         </div>
       </section>

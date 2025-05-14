@@ -5,23 +5,23 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../components/ui/dialog";
-import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
 import { useState } from "react";
 import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db, auth } from "../firebase";
-import { Loader2 } from "lucide-react";
 import { FirebaseError } from "firebase/app";
+import { Loader2 } from "lucide-react";
 
-export default function JoinGroupModal() {
+export default function JoinPlayerModal() {
   const [gid, setGid] = useState("");
-  const [adminPw, setAdminPw] = useState("");
+  const [pw, setPw] = useState("");
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
   const handleJoin = async () => {
-    if (gid.length !== 6 || adminPw.length !== 8) {
-      alert("ID は 6 桁、管理者 PW は 8 桁で入力してください");
+    if (gid.length !== 6 || pw.length !== 6) {
+      alert("ID とプレイヤーPW は 6桁です");
       return;
     }
     setLoading(true);
@@ -31,25 +31,24 @@ export default function JoinGroupModal() {
       if (!snap.exists()) throw new Error("グループが存在しません");
 
       const data = snap.data();
-      if (data.adminPassword !== adminPw) {
-        throw new Error("管理者パスワードが違います");
-      }
+      if (data.playerPassword !== pw)
+        throw new Error("プレイヤーパスワードが違います");
 
       await updateDoc(ref, {
-        adminUids: arrayUnion(auth.currentUser!.uid),
+        playerUids: arrayUnion(auth.currentUser!.uid),
       });
-      alert("管理者として参加しました");
+      alert("グループに参加しました！");
       setGid("");
-      setAdminPw("");
+      setPw("");
       setOpen(false);
     } catch (err: unknown) {
-      const message =
+      const msg =
         err instanceof FirebaseError
           ? err.message
           : err instanceof Error
           ? err.message
-          : "不明なエラーが発生しました";
-      alert(message);
+          : "不明なエラー";
+      alert(msg);
     } finally {
       setLoading(false);
     }
@@ -58,26 +57,25 @@ export default function JoinGroupModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">既存グループに参加</Button>
+        <Button variant="outline">グループに参加</Button>
       </DialogTrigger>
-
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>既存グループに管理者参加</DialogTitle>
+          <DialogTitle>プレイヤー参加</DialogTitle>
         </DialogHeader>
 
         <Input
-          placeholder="グループ ID (6 桁)"
+          placeholder="グループID (6桁)"
           value={gid}
           onChange={(e) => setGid(e.target.value)}
           maxLength={6}
         />
         <Input
-          placeholder="管理者パスワード (8 桁)"
-          value={adminPw}
-          onChange={(e) => setAdminPw(e.target.value)}
+          placeholder="プレイヤーPW (6桁)"
+          value={pw}
+          onChange={(e) => setPw(e.target.value)}
           type="password"
-          maxLength={8}
+          maxLength={6}
         />
         <Button onClick={handleJoin} disabled={loading}>
           {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
