@@ -1,5 +1,6 @@
 {
   "name": "poker-totalizing-system",
+  "homepage": "https://Yutak6116.github.io/poker-totalizing-system/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,7 +8,10 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.13",
@@ -18,6 +22,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "firebase": "^11.7.1",
+    "gh-pages": "^6.3.0",
     "lucide-react": "^0.510.0",
     "react": "^19.1.0",
     "react-calendar": "^5.1.0",

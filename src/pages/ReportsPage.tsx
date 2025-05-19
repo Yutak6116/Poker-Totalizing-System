@@ -36,10 +36,10 @@ export default function ReportsPage() {
 
   /* 一覧関連 */
   const [allReports, setAllReports] = useState<Report[]>([]);
-  const totalDiff = allReports.reduce(
-    (sum, r) => sum + (r.endBB - r.buyInBB),
-    0
-  );
+  // const totalDiff = allReports.reduce(
+  //   (sum, r) => sum + (r.endBB - r.buyInBB),
+  //   0
+  // );
 
   /* -------- カレンダー用 listener -------- */
   useEffect(() => {
@@ -77,12 +77,12 @@ export default function ReportsPage() {
   }, [gid]);
 
   /* -------- ヘルパー: Diff 表示色 -------- */
-  const formatDiff = (d: number) =>
-    d < 0 ? (
-      <span className="text-red-600 font-semibold">{d} BB</span>
-    ) : (
-      <span className="font-semibold">+{d} BB</span>
-    );
+  // const formatDiff = (d: number) =>
+  //   d < 0 ? (
+  //     <span className="text-red-600 font-semibold">{d} BB</span>
+  //   ) : (
+  //     <span className="font-semibold">+{d} BB</span>
+  //   );
 
   return (
     <main className="container mx-auto max-w-3xl py-8 space-y-6">

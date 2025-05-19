@@ -1,5 +1,5 @@
 // src/components/ui/typography.tsx
-import { cn } from "@/lib/utils"; // shadcn の className helper。無ければ単に className 連結でも可
+import { cn } from "../../lib/utils";
 
 type HeadingProps = React.HTMLAttributes<HTMLHeadingElement> & {
   level?: 1 | 2 | 3 | 4;
