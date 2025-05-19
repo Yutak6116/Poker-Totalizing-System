@@ -4,7 +4,7 @@ name: Deploy static content to Pages
 on:
   # 対象ブランチプッシュ時に実行されます
   push:
-    branches: ['poker-totalizing-system'] 👈️ プッシュ先のブランチ指定
+    branches: ["poker-totalizing-system"]
 
   # Actions タブから手動でワークフローを実行できるようにします
   workflow_dispatch:
@@ -17,7 +17,7 @@ permissions:
 
 # 1 つの同時デプロイメントを可能にする
 concurrency:
-  group: 'pages'
+  group: "pages"
   cancel-in-progress: true
 
 jobs:
@@ -34,7 +34,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          cache: "npm"
       - name: Install dependencies
         run: npm ci
       - name: Build
@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           # dist フォルダーのアップロード
-          path: './dist'
+          path: "./dist"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
