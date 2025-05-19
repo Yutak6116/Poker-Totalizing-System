@@ -12,6 +12,7 @@ import CreateGroupModal from "../components/CreateGroupModal";
 interface Group {
   id: string;
   name: string;
+  createdBy: string;
 }
 
 export default function AdminDashboard() {
@@ -30,7 +31,13 @@ export default function AdminDashboard() {
       where("adminUids", "array-contains", uid)
     );
     const unsub = onSnapshot(q, (snap) => {
-      setGroups(snap.docs.map((d) => ({ id: d.id, name: d.data().name })));
+      setGroups(
+        snap.docs.map((d) => ({
+          id: d.id,
+          name: d.data().name,
+          createdBy: d.data().createdBy,
+        }))
+      );
     });
     return unsub;
   }, []);
@@ -56,6 +63,7 @@ export default function AdminDashboard() {
               id={g.id}
               name={g.name}
               to={`/admin/group/${g.id}`}
+              role={g.createdBy === auth.currentUser!.uid ? "owner" : "admin"}
             />
           ))}
         </div>

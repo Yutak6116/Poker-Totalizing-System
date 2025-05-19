@@ -8,7 +8,7 @@ import {
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { useState } from "react";
-import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import { FirebaseError } from "firebase/app";
 import { Loader2 } from "lucide-react";
@@ -37,6 +37,18 @@ export default function JoinPlayerModal() {
       await updateDoc(ref, {
         playerUids: arrayUnion(auth.currentUser!.uid),
       });
+      const playerDoc = doc(
+        db,
+        "groups",
+        gid.trim(),
+        "players",
+        auth.currentUser!.uid
+      );
+      if (!(await getDoc(playerDoc)).exists()) {
+        await setDoc(playerDoc, {
+          displayName: auth.currentUser!.displayName ?? "Anonymous",
+        });
+      }
       alert("グループに参加しました！");
       setGid("");
       setPw("");

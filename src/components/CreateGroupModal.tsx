@@ -41,6 +41,7 @@ export default function CreateGroupModal() {
           await setDoc(ref, {
             groupId: gid,
             name: groupName.trim(),
+            createdBy: auth.currentUser!.uid,
             playerPassword: playerPw,
             adminPassword: adminPw,
             adminUids: [auth.currentUser!.uid],
