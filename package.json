@@ -1,6 +1,6 @@
 {
   "name": "poker-totalizing-system",
-  "homepage": "https://Yutak6116.github.io/poker-totalizing-system/",
+  "homepage": "https://yutak6116.github.io/poker-totalizing-system/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,7 +11,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.13",
