@@ -16,20 +16,49 @@ import {
 } from "../components/ui/alert-dialog";
 import { Button } from "../components/ui/button";
 import { MoreVertical, Pencil, Trash2 } from "lucide-react";
-import { useState } from "react";
-import { deleteDoc, doc } from "firebase/firestore";
+import { useState, useEffect } from "react";
+import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import EditReportModal from "./EditReportModal";
 
 interface Props {
   gid: string;
+  uid: string;
   id: string;
   date: string;
   buyInBB: number;
   endBB: number;
+  playerName?: string;
 }
 
-export default function ReportRow({ gid, id, date, buyInBB, endBB }: Props) {
+export default function ReportRow({
+  gid,
+  uid,
+  id,
+  date,
+  buyInBB,
+  endBB,
+  playerName,
+}: Props) {
+  const [name, setName] = useState(playerName ?? "…");
+
+  useEffect(() => {
+    if (playerName) return; // 既に渡されていればスキップ
+    (async () => {
+      // groups/{gid}/players/{uid} → displayName を読む
+      const snap = await getDoc(doc(db, "groups", gid, "players", uid));
+      if (snap.exists() && snap.data().displayName) {
+        setName(snap.data().displayName as string);
+      } else {
+        // fallback users/{uid}
+        const userSnap = await getDoc(doc(db, "users", uid));
+        setName(
+          (userSnap.exists() && userSnap.data().displayName) || uid.slice(0, 6)
+        );
+      }
+    })();
+  }, [gid, uid, playerName]);
+
   const diff = endBB - buyInBB;
   const diffClass = diff < 0 ? "text-red-600 font-semibold" : "font-semibold";
   const diffDisp = diff < 0 ? diff : `+${diff}`;
@@ -49,6 +78,7 @@ export default function ReportRow({ gid, id, date, buyInBB, endBB }: Props) {
       {/* ---- テーブル行 ---- */}
       <tr className="border-b last:border-none">
         <td className="px-4 py-2 text-center">{date}</td>
+        <td className="px-4 py-2 text-center">{name}</td>
         <td className="px-4 py-2 text-center">{buyInBB} BB</td>
         <td className="px-4 py-2 text-center">{endBB} BB</td>
         <td className={`px-4 py-2 text-center ${diffClass}`}>{diffDisp} BB</td>

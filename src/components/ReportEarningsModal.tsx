@@ -41,6 +41,7 @@ export default function ReportEarningsModal({ gid }: Props) {
       );
       await addDoc(col, {
         date,
+        uid: auth.currentUser!.uid,
         buyInBB: Number(buyIn),
         endBB: Number(end),
         updatedAt: serverTimestamp(),

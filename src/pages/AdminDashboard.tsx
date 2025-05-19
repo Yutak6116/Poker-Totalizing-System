@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { Heading } from "../components/ui/typography";
-import { Button } from "../components/ui/button";
-import { LogOutIcon } from "lucide-react";
+// import { Button } from "../components/ui/button";
+// import { LogOutIcon } from "lucide-react";
 import GroupCard from "../components/GroupCard";
-import JoinGroupModal from "../components/JoinGroupModal";
+import JoinAdminModal from "../components/JoinAdminModal";
 import CreateGroupModal from "../components/CreateGroupModal";
 
 interface Group {
@@ -43,36 +43,35 @@ export default function AdminDashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-50/60 p-6">
-      <div className="mx-auto max-w-5xl flex items-center justify-between mb-8">
-        <Heading level={1}>管理者ダッシュボード</Heading>
-        <Button variant="outline" size="icon" onClick={() => auth.signOut()}>
-          <LogOutIcon className="h-5 w-5" />
-        </Button>
-      </div>
+    <main className="container mx-auto max-w-2xl py-10 space-y-8">
+      <Heading level={2}>管理者ダッシュボード</Heading>
 
-      <section className="space-y-4">
-        <Heading level={2}>あなたのグループ</Heading>
-        {groups.length === 0 && (
-          <p className="text-slate-500">まだグループがありません。</p>
+      {/* 自分が所属するグループ */}
+      <section>
+        <Heading level={3} className="mb-3">
+          グループ一覧
+        </Heading>
+        {groups.length === 0 ? (
+          <p className="text-muted-foreground">まだ参加していません。</p>
+        ) : (
+          <div className="grid gap-4">
+            {groups.map((g) => (
+              <GroupCard
+                key={g.id}
+                id={g.id}
+                name={g.name}
+                to={`/admin/group/${g.id}`}
+                role={g.createdBy === auth.currentUser!.uid ? "owner" : "admin"}
+              />
+            ))}
+          </div>
         )}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {groups.map((g) => (
-            <GroupCard
-              key={g.id}
-              id={g.id}
-              name={g.name}
-              to={`/admin/group/${g.id}`}
-              role={g.createdBy === auth.currentUser!.uid ? "owner" : "admin"}
-            />
-          ))}
-        </div>
       </section>
 
       <div className="flex gap-4 mt-10">
-        <JoinGroupModal />
+        <JoinAdminModal />
         <CreateGroupModal />
       </div>
-    </div>
+    </main>
   );
 }

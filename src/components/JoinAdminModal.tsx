@@ -4,16 +4,16 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "../components/ui/dialog";
-import { Input } from "../components/ui/input";
-import { Button } from "../components/ui/button";
+} from "./ui/dialog";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 import { useState } from "react";
 import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import { Loader2 } from "lucide-react";
 import { FirebaseError } from "firebase/app";
 
-export default function JoinGroupModal() {
+export default function JoinAdminModal() {
   const [gid, setGid] = useState("");
   const [adminPw, setAdminPw] = useState("");
   const [loading, setLoading] = useState(false);

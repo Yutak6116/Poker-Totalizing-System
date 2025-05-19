@@ -17,6 +17,7 @@ import ReportRow from "../components/ReportRow";
 
 interface Report {
   id: string;
+  uid: string;
   date: string;
   buyInBB: number;
   endBB: number;
@@ -119,6 +120,7 @@ export default function ReportsPage() {
               <thead>
                 <tr className="border-b bg-slate-50">
                   <th className="px-4 py-2">日付</th>
+                  <th className="px-4 py-2">Player</th>
                   <th className="px-4 py-2">Buy-in</th>
                   <th className="px-4 py-2">End</th>
                   <th className="px-4 py-2">Diff</th>
@@ -130,6 +132,7 @@ export default function ReportsPage() {
                   <ReportRow
                     key={r.id}
                     gid={gid!}
+                    uid={r.uid}
                     id={r.id}
                     date={r.date}
                     buyInBB={r.buyInBB}
@@ -149,6 +152,7 @@ export default function ReportsPage() {
             <thead>
               <tr className="border-b bg-slate-50">
                 <th className="px-4 py-2">日付</th>
+                <th className="px-4 py-2">Player</th>
                 <th className="px-4 py-2">Buy-in</th>
                 <th className="px-4 py-2">End</th>
                 <th className="px-4 py-2">Diff</th>
@@ -160,6 +164,7 @@ export default function ReportsPage() {
                 <ReportRow
                   key={r.id}
                   gid={gid!}
+                  uid={r.uid}
                   id={r.id}
                   date={r.date}
                   buyInBB={r.buyInBB}

@@ -45,7 +45,7 @@ export default function PlayerDashboard() {
       {/* 自分が所属するグループ */}
       <section>
         <Heading level={3} className="mb-3">
-          参加中のグループ
+          グループ一覧
         </Heading>
         {groups.length === 0 ? (
           <p className="text-muted-foreground">まだ参加していません。</p>
@@ -63,8 +63,9 @@ export default function PlayerDashboard() {
         )}
       </section>
 
-      {/* 参加ボタン */}
-      <JoinPlayerModal />
+      <div className="flex gap-4 mt-10">
+        <JoinPlayerModal />
+      </div>
     </main>
   );
 }
