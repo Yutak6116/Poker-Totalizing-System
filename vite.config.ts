@@ -4,7 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
 export default defineConfig({
-  base: "/poker-totalizing-system/",
+  base: "/Poker-Totalizing-System/",
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
